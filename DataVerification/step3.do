@@ -15,16 +15,17 @@ Step 9 : Merge cancelled Dealers with returns data and dealer profiles
 /* Here I assume that if Dealers edit their profiles then new Ids get created for their TIN
 Hence I sort on tin and keep the latest entry */
 * A question that we need to ask is why are there 69983 ids that have no tins.
-cd "D:\data\"
+cd "E:\data\"
 
 use "DealerProfile.dta", clear
+destring idDP, replace
 gsort DealerTIN -idDP
-br
 drop if DealerTIN==""
 isid idDP DealerTIN
 
 by DealerTIN: gen ReturnCount = _n
 keep if ReturnCount==1
+drop ReturnCount
 save "DataVerification\step3\DealerProfile_uniqueTin.dta"
 
 
